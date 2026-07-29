@@ -1,0 +1,124 @@
+import 'package:flutter/material.dart';
+import '../models/department.dart';
+
+class DepartmentsScreen extends StatelessWidget {
+  const DepartmentsScreen({super.key});
+
+  final List<Department> departments = const [
+    Department(
+      name: 'የኤሌክትሪክal ኢንጂነሪንግ',
+      description:
+          'የኤሌክትሪክ ስርዓቶችን፣ የኃይል ማመንጫዎችን እና የኤሌክትሮኒክስን የሚማሩ ተማሪዎች።',
+      icon: Icons.electrical_services,
+      color: Colors.yellow,
+    ),
+    Department(
+      name: 'የሲቪል ኢንጂነሪንግ',
+      description:
+          'የግንባታ፣ የመንገድ እና የድልድይ ዲዛይን እና ግንባታ።',
+      icon: Icons.apartment,
+      color: Colors.brown,
+    ),
+    Department(
+      name: 'የመካከለኛ ሞተር ሜካኒክስ',
+      description:
+          'የመኪና እና የሞተር ማሽኖች ጥገና እና ጥበቃ።',
+      icon: Icons.car_repair,
+      color: Colors.red,
+    ),
+    Department(
+      name: 'የኮምፒዩተር ሳይንስ',
+      description:
+          'ፕሮግራሚንግ፣ የኔትወርክ አስተዳደር እና የሶፍትዌር ልማት።',
+      icon: Icons.computer,
+      color: Colors.blue,
+    ),
+    Department(
+      name: 'የመስክ ማሻሻያ',
+      description:
+          'የግብርና ቴክኒክ፣ የመሬት አስተዳደር እና የውሃ ሀብት።',
+      icon: Icons.agriculture,
+      color: Colors.green,
+    ),
+    Department(
+      name: 'የመለኪያ ሳይንስ',
+      description:
+          'የሳይንስ ላቦራቶሪ እና የመለኪያ መሳሪያዎች አጠቃቀም።',
+      icon: Icons.science,
+      color: Colors.purple,
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('የትምህርት ክፍሎች'),
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: departments.length,
+        itemBuilder: (context, index) {
+          final dept = departments[index];
+          return Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: dept.color.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Icon(
+                      dept.icon,
+                      color: dept.color,
+                      size: 30,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          dept.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          dept.description,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.deepPurple,
+                    size: 18,
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
