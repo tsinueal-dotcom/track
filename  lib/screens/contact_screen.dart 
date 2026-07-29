@@ -1,0 +1,253 @@
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+class ContactScreen extends StatelessWidget {
+  const ContactScreen({super.key});
+
+  Future<void> _launchPhone(String phone) async {
+    final uri = Uri.parse('tel:$phone');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
+
+  Future<void> _launchEmail(String email) async {
+    final uri = Uri.parse('mailto:$email');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
+
+  Future<void> _launchMap() async {
+    final uri = Uri.parse(
+      'https://www.google.com/maps/search/?api=1&query=Asella+Polytechnic+College',
+    );
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('አግኙን'),
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Center(
+              child: Text(
+                'አግኙን',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Center(
+              child: Text(
+                'ከእኛ ጋር ለመገናኘት እነዚህን መንገዶች ይጠቀሙ',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+
+            // Phone
+            _buildContactCard(
+              icon: Icons.phone,
+              iconColor: Colors.green,
+              title: 'ስልክ',
+              subtitle: '+251-XXX-XXX-XXX',
+              onTap: () => _launchPhone('+251XXXXXXXXX'),
+            ),
+
+            // Email
+            _buildContactCard(
+              icon: Icons.email,
+              iconColor: Colors.red,
+              title: 'ኢሜይል',
+              subtitle: 'info@asellapoly.edu.et',
+              onTap: () => _launchEmail('info@asellapoly.edu.et'),
+            ),
+
+            // Location
+            _buildContactCard(
+              icon: Icons.location_on,
+              iconColor: Colors.blue,
+              title: 'አድራሻ',
+              subtitle: 'አሰንዳቦ፣ ኦሮሚያ፣ ኢትዮጵያ',
+              onTap: _launchMap,
+            ),
+
+            const SizedBox(height: 30),
+
+            const Text(
+              'የማህበራዊ ሚዲያ',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepPurple,
+              ),
+            ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildSocialButton(
+                  FontAwesomeIcons.facebook,
+                  Colors.blue[800]!,
+                  () {},
+                ),
+                _buildSocialButton(
+                  FontAwesomeIcons.telegram,
+                  Colors.lightBlue,
+                  () {},
+                ),
+                _buildSocialButton(
+                  FontAwesomeIcons.youtube,
+                  Colors.red,
+                  () {},
+                ),
+                _buildSocialButton(
+                  FontAwesomeIcons.instagram,
+                  Colors.pink,
+                  () {},
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+
+            // Working Hours
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.deepPurple.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Colors.deepPurple.withOpacity(0.2),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(Icons.access_time, color: Colors.deepPurple),
+                      SizedBox(width: 10),
+                      Text(
+                        'የስራ ሰዓታት',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  _buildWorkingHour('ሰኞ - አርብ', '8:00 AM - 5:00 PM'),
+                  _buildWorkingHour('ቅዳሜ', '8:00 AM - 12:00 PM'),
+                  _buildWorkingHour('እሁድ', 'የተዘጋ'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContactCard({
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 8,
+        ),
+        leading: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: iconColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(icon, color: iconColor, size: 28),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+        subtitle: Text(subtitle),
+        trailing: const Icon(
+          Icons.arrow_forward_ios,
+          size: 16,
+          color: Colors.grey,
+        ),
+        onTap: onTap,
+      ),
+    );
+  }
+
+  Widget _buildSocialButton(IconData icon, Color color, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 55,
+        height: 55,
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(icon, color: color, size: 26),
+      ),
+    );
+  }
+
+  Widget _buildWorkingHour(String day, String time) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            day,
+            style: const TextStyle(fontSize: 15),
+          ),
+          Text(
+            time,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: Colors.deepPurple,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
