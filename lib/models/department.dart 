@@ -1,0 +1,13 @@
+class Department {
+  final String name;
+  final String description;
+  final IconData icon;
+  final Color color;
+
+  Department({
+    required this.name,
+    required this.description,
+    required this.icon,
+    required this.color,
+  });
+}
