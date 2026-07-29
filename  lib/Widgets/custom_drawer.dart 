@@ -1,0 +1,120 @@
+import 'package:flutter/material.dart';
+import '../screens/home_screen.dart';
+import '../screens/departments_screen.dart';
+import '../screens/about_screen.dart';
+import '../screens/contact_screen.dart';
+
+class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({super.key});
+
+  Widget _buildDrawerItem(
+    BuildContext context,
+    IconData icon,
+    String title,
+    Widget screen,
+  ) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.deepPurple),
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      ),
+      onTap: () {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => screen),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: [
+          DrawerHeader(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.deepPurple, Colors.purpleAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.school,
+                      size: 50,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'አሰንዳቦ ፖሊ ቴክኒክ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'ኮሌጅ',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.9),
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          _buildDrawerItem(
+            context,
+            Icons.home_rounded,
+            'መነሻ ገጽ',
+            const HomeScreen(),
+          ),
+          _buildDrawerItem(
+            context,
+            Icons.business_rounded,
+            'የትምህርት ክፍሎች',
+            const DepartmentsScreen(),
+          ),
+          _buildDrawerItem(
+            context,
+            Icons.info_rounded,
+            'ስለ ኮሌጁ',
+            const AboutScreen(),
+          ),
+          _buildDrawerItem(
+            context,
+            Icons.contact_mail_rounded,
+            'አግኙን',
+            const ContactScreen(),
+          ),
+          const Divider(),
+          const ListTile(
+            leading: Icon(Icons.settings, color: Colors.grey),
+            title: Text('ቅንብሮች'),
+          ),
+          const Spacer(),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              '© 2026 አሰንዳቦ ፖሊ ቴክኒክ',
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
